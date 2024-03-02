@@ -1,34 +1,32 @@
-import crypto from "crypto";
-interface BlockShape {
-  hash: string;
-  prevHash: string;
-  height: number;
-  data: string;
-}
-class Block implements BlockShape {
-  public hash: string;
-  constructor(
-    public prevHash: string,
-    public height: number,
-    public data: string
-  ) {
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+const crypto_1 = __importDefault(require("crypto"));
+class Block {
+  constructor(prevHash, height, data) {
+    this.prevHash = prevHash;
+    this.height = height;
+    this.data = data;
     this.hash = Block.calculateHash(prevHash, height, data);
   }
-  static calculateHash(prevHash: string, height: number, data: string) {
+  static calculateHash(prevHash, height, data) {
     const toHash = `${prevHash}${height}${data}`;
-    return crypto.createHash("sha256").update(toHash).digest("hex");
+    return crypto_1.default.createHash("sha256").update(toHash).digest("hex");
   }
 }
 class Blockchain {
-  private blocks: Block[];
   constructor() {
     this.blocks = [];
   }
-  private getPrevHash() {
+  getPrevHash() {
     if (this.blocks.length === 0) return "";
     return this.blocks[this.blocks.length - 1].hash;
   }
-  public addBlock(data: string) {
+  addBlock(data) {
     const newBlock = new Block(
       this.getPrevHash(),
       this.blocks.length + 1,
@@ -36,16 +34,13 @@ class Blockchain {
     );
     this.blocks.push(newBlock);
   }
-  public getBlocks() {
+  getBlocks() {
     return [...this.blocks];
   }
 }
-
 const blockchain = new Blockchain();
-
 blockchain.addBlock("First one");
 blockchain.addBlock("Second one");
 blockchain.addBlock("Third one");
 blockchain.addBlock("Fourth one");
-
 console.log(blockchain.getBlocks());

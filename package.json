@@ -2,11 +2,20 @@
   "name": "nomadtypechain",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "start": "node build/index.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^17.0.45",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.0"
   }
 }
